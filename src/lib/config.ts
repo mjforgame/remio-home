@@ -22,7 +22,9 @@ export async function getConfig(fileName: string, throwError: boolean = false) {
     configPath,
     dateFormat(new Date(), "YYYY-MM-DD HH:mm:ss")
   );
-  if (existsSync(configPath)) {
+  if (process.env.APP_CONFIG){
+    return JSON.parse(process.env.APP_CONFIG) as AppConfig;
+  } else if (existsSync(configPath)) {
     const config = await readFileSync(configPath, "utf-8");
     return JSON.parse(config) as AppConfig;
   } else {
